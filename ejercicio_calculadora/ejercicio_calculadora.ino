@@ -1,81 +1,83 @@
-int a;
-int b;
-int opcion;
+double a;
+double b;
+float opcion;
 
-void calculadora(int a, int b, int dato);
+void calculadora(double a, double b, float dato);
 
-void calculadora(int a, int b, int dato) {
-  String operacion;
-  int resultado;
-
-  if (dato == 1) {
-    operacion = "suma";
-    resultado = a + b;
-  } 
-  else if (dato == 2) {
-    operacion = "resta";
-    resultado = a - b;
-  } 
-  else if (dato == 3) {
-    operacion = "multiplicar";
-    resultado = a * b;
-  } 
-  else if (dato == 4) {
-    operacion = "division";
-    if (b != 0) {
-      resultado = a / b;
-    } else {
-      Serial.println("Error: división por cero");
-      return;
-    }
+void calculadora(double a, double b, float dato) {
+    String operacion;
+    double resultado;
+  
+    if (dato == 1) {
+          operacion = "suma";
+          resultado = a + b;
+    } 
+    else if (dato == 2) {
+          operacion = "resta";
+          resultado = a - b;
+    } 
+    else if (dato == 3) {
+          operacion = "multiplicación";
+          resultado = a * b;
+    } 
+    else if (dato == 4) {
+        operacion = "división";
+        if (b != 0) {
+          resultado = a / b;
+        } else {
+            Serial.println("Error: división por cero");
+            return;
+        }
   }
-
-  Serial.printf("El resultado de la %s es: %d\n", operacion, resultado);
+  Serial.printf("El resultado de la %s es: %f\n", operacion, resultado);
   //Serial.print(operacion);
   //Serial.print(" es: ");
   //Serial.println(resultado);
+}
+
+void selecion();
+
+void selecion() {
+  Serial.println("1. Sumar");
+  Serial.println("2. Restar");
+  Serial.println("3. Multiplicar");
+  Serial.println("4. Dividir");
+  Serial.println("Ingrese una opción: ");
 }
 
 void setup() {
   Serial.begin(115200);
   delay(1000);
   Serial.println("Bienvenido a la Micro-calculadora");
+  delay(1000);
+  selecion();
 }
 
 void loop() {
-  Serial.println("1. Sumar");
-  Serial.println("2. Restar");
-  Serial.println("3. Multiplicar");
-  Serial.println("4. Dividir");
-  Serial.println("Ingrese una opción: ");
-
-  while (1) {
-  opcion = Serial.parseInt();
+  
+  opcion = Serial.parseFloat();
 
   if (opcion >= 1 && opcion <= 4) {
     Serial.println("Ingrese el primer número:");
-    Serial.read();
     while (1){
-      a = Serial.parseInt();
+      a = Serial.parseFloat();
       if (a != 0){
-        Serial.println(a);
+        Serial.println(a, 10);
         break;
       }
     }
     Serial.println("Ingrese el segundo número:");
     while (1){
-      b = Serial.parseInt();
+      b = Serial.parseFloat();
       if (b != 0){
-        Serial.println(b);
+        Serial.println(b, 10);
         break;
       }
     }
-    break;
-  } else if (opcion < 1 && opcion > 4){
+   calculadora(a, b, opcion);
+   selecion();
+  } else if ((opcion < 1 || opcion > 4) && opcion != 0){
     Serial.println("Opción inválida.");
-    Serial.read();
+    selecion();
   }
-  }
-  calculadora(a, b, opcion);
-  delay(2000);
 }
